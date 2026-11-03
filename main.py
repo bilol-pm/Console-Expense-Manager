@@ -40,41 +40,65 @@
 #
 # print(count_comparisons(list(range(1000))))
 
-from expences import load_expences, save_expences, add_expences, total_by_category
+from expences import load_expences, save_expences, add_expences, total_by_category, delete_expence
 
 if __name__ == "__main__":
     inventory = load_expences()
     print("Loading Expences...")
     while True:
         print("1. Add Expences")
-        print("2. Sum by category")
-        print("3. See all Expences")
-        print("4. Delete Expences")
-        print("5. Exit")
+        print("2. See all Expences")
+        print("3. Sum by category")
+        print("4. Sum all expences")
+        print("5. Delete expence")
+        print("6. Exit")
         print("=" * 50)
 
         choice = input("Enter your choice: ")
         if choice == "1":
-            adding_amount = int(input("Enter amount to add: "))
-            adding_category = input("Enter category to add: ")
-            adding_notes = input("Enter note to add: ")
-            new_expence = Expences(adding_amount, adding_category, adding_notes)
-            inventory = [
-                {
-                    "added_amount": {adding_amount},
-                    "added_category": {adding_category},
-                    "added_notes": {adding_notes}
-                }
-            ]
-            expences.save_expences(inventory)
-            print("Expences added.")
+            while True:
+                try:
+                    amount = float(input("Enter amount to add: "))
+                    if amount <= 0:
+                        print("Invalid amount!")
+                        continue
+                    break
+                except ValueError:
+                    print("Invalid amount!")
+            category = input("Enter category to add: ")
+            notes = input("Enter notes: ")
+
+            add_expences(inventory, amount, category, notes)
+            print("Expences added!")
         elif choice == "2":
-            print("")
+            if not inventory:
+                print("No expences yet!")
+            else:
+                for key, value in inventory.items():
+                    print(f"ID: {key} | Amount: {value["amount"]} | Category: {value['category']} | Notes: {value['notes']}")
         elif choice == "3":
-            print("")
+            totals = total_by_category(inventory)
+            if not totals:
+                print("No categories yet!")
+            else:
+                print("Total by category: ")
+                for cat, total in totals.items():
+                    print(f"- {cat}: {total}")
         elif choice == "4":
-            print("")
+            total_sum = sum(exp["amount"] for exp in inventory.values())
+            print(f"Tatal sum: {total_sum}")
         elif choice == "5":
+            if not inventory:
+                print("No expences to delete!")
+            else:
+                for key, value in inventory.items():
+                    print(f"ID: {key} | Amount: {value['amount']} | Category: {value['category']} | Notes: {value['notes']}")
+                exp_id = input("Enter expense ID: ")
+                if delete_expence(inventory, exp_id):
+                    print("Expense deleted successfully!")
+                else:
+                    print("Invalid ID! Expence not found.")
+        elif choice == "6":
             print("Goodbye!")
             break
         else:

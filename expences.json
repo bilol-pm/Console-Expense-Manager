@@ -1,3 +1,22 @@
-[
-    {
-        "added_amount": 
+{
+    "1": {
+        "amount": 200.0,
+        "category": "food",
+        "notes": "lunch"
+    },
+    "2": {
+        "amount": 300.0,
+        "category": "rent",
+        "notes": "jugla"
+    },
+    "3": {
+        "amount": 500.0,
+        "category": "travel",
+        "notes": "france"
+    },
+    "4": {
+        "amount": 100.0,
+        "category": "food",
+        "notes": "breakfast"
+    }
+}

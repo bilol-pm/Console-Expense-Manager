@@ -37,6 +37,19 @@ def add_expences(expences_dict, amount, category, notes):
     }
     save_expences(expences_dict)
 
-def total_b
+def total_by_category(expences_dict):
+    category_totals = {}
+    for exp in expences_dict.values():
+        cat = exp["category"]
+        amt = exp["amount"]
+        category_totals[cat] = category_totals.get(cat, 0) + amt
+    return category_totals
+
+def delete_expence(expences_dict, expences_id):
+    if expences_id in expences_dict:
+        del expences_dict[expences_id]
+        save_expences(expences_dict)
+        return True
+    return False
 
 
